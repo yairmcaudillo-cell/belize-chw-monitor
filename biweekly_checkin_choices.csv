@@ -1,0 +1,52 @@
+list_name,name,label
+chw_list,CHW-001,Maria - Sarteneja
+chw_list,CHW-002,Ana - Sarteneja
+chw_list,CHW-003,Rosa - Community 2
+glucose_context,fasting,En ayunas ≥8 horas
+glucose_context,post_meal,Después de comer 1–2 horas
+glucose_context,random,Aleatoria / no especificada
+adherence,daily,Todos los días
+adherence,missed_1_3,Faltó 1–3 días
+adherence,missed_4_plus,Faltó ≥4 días
+adherence,not_taking,No está tomando medicamentos
+med_barriers,forget,Olvido
+med_barriers,ran_out,Se acabaron
+med_barriers,cost,Costo
+med_barriers,side_effects,Efectos secundarios
+med_barriers,other,Otro
+frequency,never,Nunca
+frequency,some_days,Algunos días
+frequency,most_days,La mayoría de los días
+frequency,daily,Todos los días
+food_barriers,cost,Costo
+food_barriers,availability,Disponibilidad
+food_barriers,family_preferences,Preferencias familiares
+food_barriers,does_not_know,No sabe qué comer
+food_barriers,other,Otro
+activity,most_days,Activo la mayoría de los días
+activity,some_days,Activo algunos días
+activity,not_active,No activo
+activity_barriers,time,Falta de tiempo
+activity_barriers,unwell,No se sentía bien
+activity_barriers,motivation,Baja motivación
+activity_barriers,pain,Dolor / limitación física
+activity_barriers,unknown,No sabe qué ejercicios hacer
+confidence,1,Nada confiado/a
+confidence,2,Poco confiado/a
+confidence,3,Algo confiado/a
+confidence,4,Muy confiado/a
+confidence,5,Extremadamente confiado/a
+observations,missed_appointments,Faltó a cita(s) previa(s)
+observations,abnormal_glucose,Glucosa anormal
+observations,abnormal_bp,Presión arterial anormal
+observations,food_insecurity,Signos de inseguridad alimentaria
+observations,med_access,Dificultad para obtener medicamentos
+observations,other,Otro
+observations,no_concerns,Sin preocupaciones en esta visita
+yes_no,yes,Sí
+yes_no,no,No
+usefulness,1,1
+usefulness,2,2
+usefulness,3,3
+usefulness,4,4
+usefulness,5,5

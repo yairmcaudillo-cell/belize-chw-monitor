@@ -1,0 +1,10 @@
+{
+  "name": "Belize CHW Monitor",
+  "short_name": "CHW Monitor",
+  "description": "Offline-friendly CHW monitoring dashboard for diabetes and hypertension follow-up.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#0f766e",
+  "icons": []
+}
