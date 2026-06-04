@@ -11,21 +11,10 @@ create table if not exists profiles (
 
 alter table profiles enable row level security;
 
--- Any authenticated user can read their own profile
-create policy "read own profile" on profiles
-  for select using (auth.uid() = id);
-
--- Supervisors and admins can read all profiles
-create policy "supervisors read all profiles" on profiles
-  for select using (
-    exists (select 1 from profiles where id = auth.uid() and role in ('supervisor','admin'))
-  );
-
--- Only admins can insert/update profiles (managed via Supabase dashboard for now)
-create policy "admins write profiles" on profiles
-  for all using (
-    exists (select 1 from profiles where id = auth.uid() and role = 'admin')
-  );
+-- Policies (wrapped to be safe if already exist)
+do $$ begin execute 'create policy "read own profile" on profiles for select using (auth.uid() = id)'; exception when duplicate_object then null; end $$;
+do $$ begin execute 'create policy "supervisors read all profiles" on profiles for select using (exists (select 1 from profiles where id = auth.uid() and role in (''supervisor'',''admin'')))'; exception when duplicate_object then null; end $$;
+do $$ begin execute 'create policy "admins write profiles" on profiles for all using (exists (select 1 from profiles where id = auth.uid() and role = ''admin''))'; exception when duplicate_object then null; end $$;
 
 -- ─────────────────────────────────────────────────────────────
 -- HOW TO CREATE YOUR FIRST USERS
