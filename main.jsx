@@ -156,7 +156,68 @@ const guideSections = [
   </>],
 ];
 
-function Guide({open, onClose}){ if(!open) return null; return <div className="guide-overlay" onClick={onClose}><div className="guide-panel" onClick={e=>e.stopPropagation()}><div className="guide-head"><div><h2>How to use the Belize CHW Monitor</h2><p className="muted">A quick walkthrough for CHWs, supervisors, and admins.</p></div><button className="btn secondary" onClick={onClose}><X size={16}/> Close</button></div><nav className="guide-toc">{guideSections.map(([id,label])=><a key={id} href={`#${id}`}>{label}</a>)}</nav><div className="guide-body">{guideSections.map(([id,label,body])=><section id={id} key={id}><h3>{label}</h3>{body}</section>)}</div></div></div>; }
+function Mock({children}){ return <div className="mock"><div className="mock-chrome"><span/><span/><span/></div>{children}</div>; }
+
+const guideMocks = {
+  'g-roles': <Mock>
+    {[['Admin','Full access + manages users','#ef4444'],['Supervisor','Sees every patient, all CHWs','#f59e0b'],['CHW','Sees only their own patients','#10b981']].map(([r,d,c],i)=>
+      <div className="mock-role" style={{'--d':`${i*1.5}s`}} key={r}><span><span className="mock-dot" style={{background:c}}/><b>{r}</b></span><span className="muted" style={{fontSize:11}}>{d}</span></div>
+    )}
+  </Mock>,
+  'g-login': <Mock>
+    <div style={{display:'grid',gap:8,maxWidth:260}}>
+      <div className="mock-field"><span className="mock-typed">pi.belize.test@gmail.com</span></div>
+      <div className="mock-field">••••••••••</div>
+      <span className="mock-btn"><CheckCircle size={12}/> Sign in</span>
+    </div>
+  </Mock>,
+  'g-dashboard': <Mock>
+    <div className="mock-stats">{[['142','Patients'],['9','CHWs'],['58%','Visits'],['3','Alerts']].map(([n,l])=><div className="mock-stat" key={l}><b>{n}</b><span>{l}</span></div>)}</div>
+    <div className="mock-bars">{[.9,.5,.75,.35,.6].map((h,i)=><div className="mock-bar" style={{'--h':h,'--d':`${i*.15}s`}} key={i}/>)}</div>
+    <span className="mock-badge danger"><AlertTriangle size={11}/> 2 clinical alerts</span>
+  </Mock>,
+  'g-patients': <Mock>
+    <div className="mock-field" style={{marginBottom:8}}><span className="mock-typed">SAR-004</span></div>
+    <div className="mock-row mock-slide" style={{'--d':'2s'}}><span><b>SAR-004</b> · Sarteneja · CHW-002</span><span className="mock-badge good">added</span></div>
+    <div className="mock-row"><span><b>SAR-003</b> · Sarteneja · CHW-002</span><span className="mock-badge neutral">consented</span></div>
+  </Mock>,
+  'g-baseline': <Mock>
+    <div style={{display:'flex',gap:8,marginBottom:10}}>{[0,1,2,3,4].map(i=><span className="mock-check" style={{'--d':`${i*.3}s`}} key={i}>✓</span>)}</div>
+    <span className="mock-badge good">Knowledge score 4/5</span>
+  </Mock>,
+  'g-visit': <Mock>
+    <div style={{display:'flex',gap:20,marginBottom:10,fontSize:12}}>
+      <div><span className="muted">BP</span><br/><b style={{fontSize:16}}>168/96</b></div>
+      <div><span className="muted">Glucose</span><br/><b style={{fontSize:16}}>210</b></div>
+    </div>
+    <span className="mock-badge danger"><AlertTriangle size={11}/> Clinical value flagged</span>
+  </Mock>,
+  'g-endline': <Mock>
+    <div style={{display:'grid',gap:6,fontSize:11,marginBottom:8}}>
+      <div style={{display:'flex',alignItems:'center',gap:8}}><span style={{width:56}}>Baseline</span><div style={{width:160,height:10,borderRadius:6,background:'#f1f5f9'}}><div style={{width:'95%',height:'100%',borderRadius:6,background:'#f87171'}}/></div></div>
+      <div style={{display:'flex',alignItems:'center',gap:8}}><span style={{width:56}}>Endline</span><div style={{width:160,height:10,borderRadius:6,background:'#f1f5f9'}}><div style={{width:'55%',height:'100%',borderRadius:6,background:'#34d399'}}/></div></div>
+    </div>
+    <span className="mock-badge good">BP improved ↓</span>
+  </Mock>,
+  'g-feedback': <Mock>
+    <div style={{marginBottom:8}}>{[0,1,2,3,4].map(i=><span className="mock-star" style={{'--d':`${i*.25}s`}} key={i}>★</span>)}</div>
+    <span className="mock-badge neutral">CHW usability: 4/5</span>
+  </Mock>,
+  'g-exports': <Mock>
+    <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:10}}><span className="mock-sync"><RefreshCcw size={16}/></span><span className="mock-badge warn">3 queued → synced</span></div>
+    <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>{['patients.csv','visits.csv','full.json'].map((f,i)=><span className="mock-badge neutral mock-slide" style={{'--d':`${i*.4}s`}} key={f}>{f}</span>)}</div>
+  </Mock>,
+  'g-admin': <Mock>
+    <div className="mock-row mock-slide" style={{'--d':'0s'}}><span><b>Ana</b></span><span className="mock-badge neutral">supervisor</span></div>
+    <div className="mock-row mock-slide" style={{'--d':'1.2s'}}><span><b>Rosa</b></span><span className="mock-badge good">chw · CHW-003</span></div>
+  </Mock>,
+  'g-privacy': <Mock>
+    <div className="mock-glow"><Shield size={18}/></div>
+    <p style={{textAlign:'center',fontSize:11,color:'#64748b',marginTop:8,marginBottom:0}}>Study ID only — no patient names stored</p>
+  </Mock>,
+};
+
+function Guide({open, onClose}){ if(!open) return null; return <div className="guide-overlay" onClick={onClose}><div className="guide-panel" onClick={e=>e.stopPropagation()}><div className="guide-head"><div><h2>How to use the Belize CHW Monitor</h2><p className="muted">A quick walkthrough for CHWs, supervisors, and admins.</p></div><button className="btn secondary" onClick={onClose}><X size={16}/> Close</button></div><nav className="guide-toc">{guideSections.map(([id,label])=><a key={id} href={`#${id}`}>{label}</a>)}</nav><div className="guide-body">{guideSections.map(([id,label,body])=><section id={id} key={id}><h3>{label}</h3>{guideMocks[id]}{body}</section>)}</div></div></div>; }
 
 function Login({onHelp}){ const [email,setEmail]=useState(''); const [pw,setPw]=useState(''); const [err,setErr]=useState(''); const [busy,setBusy]=useState(false); const [mode,setMode]=useState('login'); const [sent,setSent]=useState(false); const signIn=async e=>{ e.preventDefault(); if(!supabase) return; setBusy(true); setErr(''); const {error}=await supabase.auth.signInWithPassword({email,password:pw}); if(error) setErr(error.message); setBusy(false); }; const sendReset=async e=>{ e.preventDefault(); if(!supabase) return; setBusy(true); setErr(''); const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin}); if(error) setErr(error.message); else setSent(true); setBusy(false); }; return <div className="login-wrap"><div className="login-box"><div className="logo" style={{margin:'0 auto 16px'}}><Activity size={28}/></div><h2 style={{textAlign:'center',margin:'0 0 4px'}}>Belize CHW Monitor</h2>{mode==='reset'?sent?<><p style={{textAlign:'center',color:'#166534',margin:'16px 0'}}>Check your email for a reset link.</p><button className="btn secondary" style={{width:'100%'}} onClick={()=>{setMode('login');setSent(false);}}>Back to sign in</button></>:<><p className="muted" style={{textAlign:'center',margin:'4px 0 16px'}}>Enter your email to receive a reset link.</p><form onSubmit={sendReset} style={{display:'grid',gap:14}}><Field label="Email"><input type="email" value={email} onChange={e=>setEmail(e.target.value)} required autoFocus/></Field>{err&&<p style={{color:'#991b1b',fontSize:14,margin:0}}>{err}</p>}<Button type="submit" disabled={busy}>{busy?'Sending…':'Send reset link'}</Button><button type="button" className="btn secondary" onClick={()=>setMode('login')}>Back to sign in</button></form></>:<><p className="muted" style={{textAlign:'center',margin:'4px 0 16px'}}>Sign in to continue</p><form onSubmit={signIn} style={{display:'grid',gap:14}}><Field label="Email"><input type="email" value={email} onChange={e=>setEmail(e.target.value)} required autoFocus/></Field><Field label="Password"><input type="password" value={pw} onChange={e=>setPw(e.target.value)} required/></Field>{err&&<p style={{color:'#991b1b',fontSize:14,margin:0}}>{err}</p>}<Button type="submit" disabled={busy||!supabase}>{busy?'Signing in…':'Sign in'}</Button><button type="button" className="btn secondary" style={{fontSize:13}} onClick={()=>{setMode('reset');setErr('');}}>Forgot password?</button></form></>}</div>{onHelp&&<button type="button" className="btn secondary" style={{marginTop:14}} onClick={onHelp}><HelpCircle size={16}/> How to use this app</button>}</div>; }
 
